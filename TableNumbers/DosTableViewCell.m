@@ -12,9 +12,13 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    self.textLabel.textColor = [UIColor orangeColor];
+    self.textLabel.textColor = [UIColor redColor];
     self.textLabel.textAlignment = NSTextAlignmentLeft;
-    [self setIndentationLevel:10];
+    self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(indentation)-[textLabel]|"
+                                                                             options:0
+                                                                             metrics:@{@"indentation": @10}
+                                                                               views:@{@"textLabel": self.textLabel}]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
