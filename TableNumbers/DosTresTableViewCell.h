@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DosTresTableViewCell.h
 //  TableNumbers
 //
 //  Created by David Céspedes on 26/08/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface DosTresTableViewCell : UITableViewCell
 
 @end
-
