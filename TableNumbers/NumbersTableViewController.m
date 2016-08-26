@@ -45,83 +45,38 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Configure the cell...
     NSNumber * number = [NSNumber numberWithInteger:indexPath.row];
-    NSString * identifier = @"CellDos";
+    NSString * identifier = @"Cell";
     if (number.intValue % 2 == 0 && number.intValue % 3 == 0) {
         identifier = @"Celldosytres";
     }else if (number.intValue % 2 == 0){
         identifier = @"Celldos";
     }else if (number.intValue % 3 == 0){
         identifier = @"Celltres";
-    }else{
-        identifier = @"Cell";
     }
-    UITableViewCell *tableCell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!tableCell)
-        tableCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    tableCell.textLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     
-    //Probar si es divisible pr 3 y 2
-    /*
-    if (number.intValue % 2 == 0 && number.intValue % 3 == 0) {
-        tableCell.textLabel.textColor = [UIColor colorWithRed:1 green:204/255 blue:212/255 alpha:1];
-        tableCell.textLabel.textAlignment = NSTextAlignmentRight;
-        [tableCell setIndentationLevel:-10];
-    }else if (number.intValue % 2 == 0){
-        tableCell.textLabel.textColor = [UIColor redColor];
-        tableCell.textLabel.textAlignment = NSTextAlignmentLeft;
-        [tableCell setIndentationLevel:10];
-    }else if (number.intValue % 3 == 0){
-        tableCell.textLabel.textColor = [UIColor blueColor];
-        tableCell.textLabel.textAlignment = NSTextAlignmentCenter;
+    UITableViewCell *tableCell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!tableCell){
+        tableCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-     */
+    
+    if ([identifier isEqualToString:@"Cell"] && (tableCell.textLabel.textAlignment != NSTextAlignmentCenter)) {
+        [self longRunningFunction:tableCell];
+    }
+    
+    
+    tableCell.textLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     
     return tableCell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)longRunningFunction:(UITableViewCell *)cell{
+    NSArray * colors = [[NSArray alloc] initWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor blackColor],nil];
+    UIColor * color = colors[(arc4random() % 3)];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        cell.textLabel.textColor = color;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    });
+    
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
